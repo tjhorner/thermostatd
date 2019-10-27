@@ -26,7 +26,7 @@ type State struct {
 	FanSpeed FanSpeed `json:"fan_speed"`
 	// TargetTemperature is the target temperature in Fahrenheit
 	TargetTemperature int `json:"target_temperature"`
-	// CurrentTemperature is the current temperature in Fahrenheit as represented by the thermometer
+	// CurrentTemperature is the current temperature in Fahrenheit as represented by the thermometer (currently not in use)
 	CurrentTemperature int `json:"current_temperature"`
 }
 
@@ -77,8 +77,6 @@ func (f FanSpeed) IsValid() bool {
 		return true
 	}
 
-	fmt.Printf("not valid because fan speed\n")
-
 	return false
 }
 
@@ -97,7 +95,6 @@ func (s State) IsValid() bool {
 
 	// Check that the temperature isn't outside the range, and that it's an even number
 	if s.TargetTemperature < tempFloor || s.TargetTemperature > tempCeil || s.TargetTemperature%2 != 0 {
-		fmt.Printf("not valid because temp\n")
 		return false
 	}
 

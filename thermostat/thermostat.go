@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/pimvanhespen/go-pi-lcd1602/synchronized"
+
 	"github.com/chbmuc/lirc"
 )
 
@@ -13,11 +15,12 @@ type Thermostat struct {
 	// State is the current state of the thermostat. DO NOT CHANGE THIS DIRECTLY
 	State State `json:"state"`
 	lircd *lirc.Router
+	lcd   *synchronized.SynchronizedLCD
 }
 
 // New returns a newly-created Thermostat object
-func New(lircd *lirc.Router) *Thermostat {
-	return &Thermostat{NewState(), lircd}
+func New(lircd *lirc.Router, lcd *synchronized.SynchronizedLCD) *Thermostat {
+	return &Thermostat{NewState(), lircd, lcd}
 }
 
 func (t *Thermostat) sendCommand(cmd string) error {
@@ -49,6 +52,17 @@ func (t *Thermostat) sendCurrentState() error {
 
 	if err = t.sendCommand(cmd); err != nil {
 		return err
+	}
+
+	if t.lcd != nil {
+		if t.State.PoweredOn {
+			t.lcd.WriteLines(
+				padForLcd(fmt.Sprintf("Temp: %dF (%s)", t.State.TargetTemperature, t.State.CurrentMode)),
+				padForLcd(fmt.Sprintf("Fan: %s", t.State.FanSpeed)),
+			)
+		} else {
+			t.lcd.WriteLines(padForLcd("Thermostat Off"), "")
+		}
 	}
 
 	return nil
