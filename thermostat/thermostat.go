@@ -61,7 +61,7 @@ func (t *Thermostat) sendCurrentState() error {
 				padForLcd(fmt.Sprintf("Fan: %s", t.State.FanSpeed)),
 			)
 		} else {
-			t.lcd.WriteLines(padForLcd("Thermostat Off"), "")
+			t.lcd.WriteLines(" Thermostat Off ", "")
 		}
 	}
 
