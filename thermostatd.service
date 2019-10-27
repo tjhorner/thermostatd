@@ -1,0 +1,18 @@
+[Unit]
+Description=thermostatd
+After=network.target
+After=lircd.service
+After=lircd.socket
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=pi
+Environment=THERMOSTATD_TOKEN=A_SECURE_TOKEN
+# Change the path below to where your thermostatd is
+ExecStart=/home/pi/thermostatd
+
+[Install]
+WantedBy=multi-user.target
