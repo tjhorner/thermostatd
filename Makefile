@@ -28,6 +28,11 @@ run-remote: dist-arm
 	scp dist/thermostatd-linux-arm pi@192.168.1.49:/home/pi/thermostatd
 	ssh -t pi@192.168.1.49 /home/pi/thermostatd
 
+deploy-remote: dist-arm
+	ssh -t pi@192.168.1.49 sudo systemctl stop thermostatd
+	scp dist/thermostatd-linux-arm pi@192.168.1.49:/home/pi/thermostatd
+	ssh -t pi@192.168.1.49 sudo systemctl start thermostatd
+
 dist: dist-win dist-macos dist-linux dist-arm
 
 build:
