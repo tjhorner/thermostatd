@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pimvanhespen/go-pi-lcd1602/synchronized"
-
 	"github.com/chbmuc/lirc"
+	"github.com/pimvanhespen/go-pi-lcd1602/synchronized"
 )
 
 // Thermostat represents an active thermostat that can receive commands
